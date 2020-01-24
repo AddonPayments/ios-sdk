@@ -78,4 +78,4 @@ En caso de que quiera hablar con un especialista de Addon Payments, deberá llam
 
 ## Licencia
 
-Este proyecto está licenciado bajo MIT. Consulte el archivo ["LICENSE.md"](LICENSE.md) ubicado en la raíz del proyecto para obtener más detalles.
+Este proyecto está licenciado bajo MIT. Consulte el archivo "LICENSE.md"LICENSE.md ubicado en la raíz del proyecto para obtener más detalles.
