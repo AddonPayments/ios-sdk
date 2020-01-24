@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Víctor Cantera">
+        <link rel="icon" href="../../assets/img/comercia_ico.png" type="image/x-icon"/ >
+        <title>Validadores - SDK iOS</title>
+
+        <!-- Bootstrap 4.3.1 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../assets/css/style.css">
+    </head>
+
+    <body>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-rpdc mb-3">
+            <a class="navbar-brand">
+                <img src="../../assets/img/log2.svg" width="30" height="30" class="img-fluid" alt="Logo Addon Payments">
+                <span class="addonNav">ADDON</span> <span>PAYMENTS</span>
+                <span class="d-none d-sm-none d-lg-inline d-xl-inline sdkNav">
+                    <span>
+                        /SDK
+                        <span class="barraNav">_</span>
+                        de
+                        <span class="barraNav">_</span>
+                        iOS
+                    </span>
+                </span>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto pl-2 pr-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Inicio
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2" href="../../index.html">Índice</a>
+                            <a class="dropdown-item pl-2" href="../errores.html">Errores de Addon Payments</a>
+                            <a class="dropdown-item pl-2" href="../informe.html">Convertir informe</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagos con tarjeta
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header text-center p-0">API</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2" href="../API/index.html">Operación API</a>
+                            <hr class="m-0 p-0">
+                            <div class="dropdown-header text-center p-0">HPP</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2" href="../HPP/index.html">Operación HPP</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Validadores
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2 active" href="#">Validadores</a>
+                            <a class="dropdown-item pl-2" href="validadores.html#cardholder">Nombre del titular</a>
+                            <a class="dropdown-item pl-2" href="validadores.html#numberCard">Número de tarjeta</a>
+                            <a class="dropdown-item pl-2" href="validadores.html#cvn">CVN</a>
+                            <a class="dropdown-item pl-2" href="validadores.html#expdate">Mes</a>
+                            <a class="dropdown-item pl-2" href="validadores.html#expact">Año</a>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /NAVBAR -->
+        
+        <div class="col-lg-12"> 
+            <div id="contenidoComun" class="container-fluid">
+                <div class="row">
+
+                    <!-- Menú lateral -->
+                    <div class="col-lg-2 sticky-top d-none d-sm-none d-lg-block d-xl-block MenuLateral">
+
+                        <!-- Barra de progreso -->
+                        <div class="progress-bar" id="progreso"></div>
+                        <!-- /Barra de progreso -->
+
+                        <nav class="navbar sticky-top navbar-light" style="padding: 0px;">
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#valid">1. Validadores</a>
+                                <nav>
+                                  <a class="nav-link ml-3 my-1" href="#codigoEjemplo">1.1 Código de ejemplo</a>
+                                </nav>
+                                <a class="nav-link" href="#descripciones">2. Descripciones</a>
+                                <nav class="nav nav-pills flex-column">
+                                  <a class="nav-link ml-3 my-1" href="#amexcvn">2.1 AMEX CVN</a>
+                                  <a class="nav-link ml-3 my-1" href="#cardholder">2.2 Nombre del titular</a>
+                                  <a class="nav-link ml-3 my-1" href="#numberCard">2.3 Número de tarjeta</a>
+                                  <a class="nav-link ml-3 my-1" href="#cvn">2.4 CVN</a>
+                                  <a class="nav-link ml-3 my-1" href="#expdate">2.5 Expiry Date</a>
+                                  <a class="nav-link ml-3 my-1" href="#expact">2.6 Expiry Date actual o superior</a>
+                                </nav>
+                            </nav>
+                        </nav>
+                    </div>
+                    <!-- /Menú lateral -->
+
+                    <!-- Contenido común -->
+                    <div class="col-lg-10" >
+                        <!-- Punto 1-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 pb-4 mb-3 text-justify">
+                                <h3 id="valid" class="titulo">
+                                    1. Validadores
+                                </h3>
+                                <hr>
+
+                                <p>
+                                    Para realizar las validaciones de los campos de su formulario, puede utilziar las funciones que facilitamos en la carpeta <a target="_blank" href="https://github.com/AddonPayments/ios-sdk/tree/master/validadores">validadores</a>.
+                                </p>
+                                <h5 class="pt-3" id="codigoEjemplo">1.1 Código de ejemplo (archivo ApiController.swift)</h5>
+
+                                <hr>
+
+                                <p>
+                                    El siguiente código pertenece al archivo "ApiController.swift" y sirve para llamar a cada función de validación del archivo "RemoteValidators.swift":
+                                </p>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                        <span class="pink">@IBAction func </span><span class="variables">validateField</span><span class="white">(sender: </span><span class="purple">AnyObject</span><span class="white">) {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-4">switch </span><span class="white">(sender </span><span class="pink">as</span><span class="white">! </span><span class="purple">UITextField</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">NumTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidCard </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="white">= </span><span class="service">NumTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardNumber</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">numTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCard </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">AnyTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidPast </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">expiryDate </span><span class="white">= </span><span class="service">MesTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">! </span><span class="function">+ </span><span class="service">AnyTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateExpiryDateNotInPast</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">expiryDate</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidPast </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">CvvTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidCVV </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="white">= </span><span class="service">CvvTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCvn</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">cvvTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCVV </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">TitularTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidHolder </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">= </span><span class="service">TitularTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardHolderName</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">titularTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidHolder </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-4">default </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">0.5</span><span class="white">)</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+                            </div>            
+                        </div>
+                        <!-- /Punto 1-->
+
+                        <!-- Punto 2-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 mb-3 pb-2 text-justify">
+                                <h3 class="pt-1" id="descripciones">
+                                    2. Descripciones
+                                </h3>
+                                <hr>
+                                
+                                <h5 id="amexcvn">2.1 AMEX CVN</h5>
+                                    <div class="p-4 panelCode">
+                                        <code>
+                                                <span class="comments">// Validar Amex CVN. Se aplica a los tipos de tarjetas Amex. Sólo permite 4 caracteres numéricos</span>
+                                            <br>
+                                                <span class="pink">class func </span><span class="variables">validateAmexCvn</span><span class="white">(</span><span class="pink">_ </span><span class="white">cvn: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                            <br>
+                                                <span class="pl-3 pink">if let </span><span class="white">cvnNumber = cnv {</span>
+                                            <br>
+                                                <span class="pl-5 comments">// Como máximo 4 caracteres</span>
+                                            <br>
+                                                <span class="pl-5 pink">let </span><span class="white">regex = </span><span class="orange">"^\\d{4}$"</span>
+                                            <br>
+                                                <span class="pl-5 pink">if </span><span class="white">cvnNumber.</span><span class="function">range</span><span class="white">(of: regex, options: .</span><span class="function">regularExpression</span><span class="white">) </span><span class="function">== </span><span class="pink">nil </span><span class="white">{</span>
+                                            <br>
+                                                <span class="pl-6 pink">return false</span>
+                                            <br>
+                                                <span class="pl-5 white">}</span>
+                                            <br>
+                                                <span class="pl-5 pink">return true</span>
+                                            <br>
+                                                <span class="pl-3 white">}</span>
+                                            <br>
+                                                <span class="pl-3 pink">return false</span>
+                                            <br>
+                                                <span class="white">}</span>
+                                        </code>
+                                    </div>
+
+                                    <hr>
+
+                                <h5 id="cardholder">2.2 Nombre del titular</h5>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">// Valide el nombre del titular de la tarjeta. Devuelve verdadero si el titular de la tarjeta es válido. Sólo permite valores ISO/IEC 8859-1 no vacíos de 100 caracteres o menos.</span>
+                                        <br>
+                                            <span class="pink">class func </span><span class="variables">validateCardHolderName</span><span class="white">(</span><span class="pink">_ </span><span class="white">cardHolderName: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">if let </span><span class="white">name = cardHolderName {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// Comprueba si solo se escribe un espacio en blanco</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">trimmedString = name.</span><span class="function">trimmingCharacters</span><span class="white">(in: </span><span class="purple">CharacterSet</span><span class="white">.</span><span class="function">whitespaces</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">trimmedString </span><span class="function">== </span><span class="orange">"" </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-6 pink">return false</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// Comprueba la normativa ISO/IEC 8859-1 entre 1 y 100</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span> <span class="white">regex = </span><span class="orange">"^[\\u0020-\\u007E\\u00A0-\\u00FF]{1,100}$"</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">name.</span><span class="function">range</span><span class="white">(of: regex, options: .</span><span class="function">regularExpression</span><span class="white">) </span><span class="pfunction">== </span><span class="pink">nil </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-6 pink">return false</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-5 pink">return true</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="pl-4 pink">return false</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="numberCard">2.3 Número de tarjeta</h5>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">// Valide el número de la tarjeta. Devuelve true si el número de tarjeta es válido. Sólo permite valores numéricos no vacíos entre 12 y 19 caracteres. También se realiza un chequeo de Luhn contra el número de tarjeta.</span>
+                                        <br>
+                                            <span class="pink">class func </span><span class="variables">validateCardNumber</span><span class="white">(</span><span class="pink">_ </span><span class="white">cardNumber: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">if let </span><span class="white">number = cardNumber {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// Comprueba que la longitud sea entre 12 y 19 caracteres</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">regex = </span><span class="orange">"^\\d{12,19}$"</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">number.</span><span class="function">range</span><span class="white">(of: regex, options: .</span><span class="function">regularExpression</span><span class="white">) </span><span class="function">== </span><span class="pink">nil </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-6 pink">return false</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// Comprobación Luhn</span>
+                                        <br>
+                                            <span class="pl-5 pink">var </span><span class="white">sum = </span><span class="yellow">0</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 pink">var </span><span class="white">digit = </span><span class="yellow">0</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 pink">var </span><span class="white">addend = </span><span class="yellow">0</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 pink">var </span><span class="white">timesTwo = </span><span class="pink">false</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">length = number.</span><span class="function">count - </span><span class="yellow">1</span><span class="white">;</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">for </span><span class="white">i </span><span class="pink">in </span><span class="white">(</span><span class="yellow">0</span><span class="function">...</span><span class="white">length.</span><span class="function">reversed</span><span class="white">() {</span>
+                                        <br>
+                                            <span class="pl-7 pink">if </span><span class="white">(timesTwo) {</span>
+                                        <br>
+                                            <span class="pl-8 white">if </span><span class="variables">addend = digit </span><span class="function">* </span><span class="yellow">2</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-9 pink">if </span><span class="white">(addend </span><span class="function">> </span><span class="yellow">9</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-10 white">addend </span><span class="function">-= </span><span class="yellow">9</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-9 pink">}</span>
+                                        <br>
+                                            <span class="pl-8 white">} </span><span class="pink">else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-9 white">addend = digit;</span>
+                                        <br>
+                                            <span class="pl-8 white">}</span>
+                                        <br>
+                                            <span class="pl-8 white">sum </span><span class="function">+= </span><span class="white">addend;</span>
+                                        <br>
+                                            <span class="pl-7 white">timesTwo = </span><span class="function">!</span><span class="white">timesTwo;</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">modulus = sum </span><span class="function">% </span><span class="yellow">10</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">(modulus </span><span class="function">!= </span><span class="yellow">0</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-7 pink">return false</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-5 white">return true</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="pl-4 pink">return false</span>
+                                        <br>
+                                            <span class=" white">}</span>   
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="cvn">2.4 CVN</h5>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">// Validar CVN. Se aplica a los tipos de tarjetas que no son de Amex. Sólo permite 3 caracteres numéricos</span>
+                                        <br>
+                                            <span class="pink">class func </span><span class="variables">validateCvn</span><span class="white">(</span><span class="pink">_ </span><span class="white">cvn: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">if let </span><span class="white">cvnNumber = cvn {</span>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">regex = </span><span class="orange">"^\\d{3}$"</span>
+                                        <br>
+                                            <span class="pink pl-5">if </span><span class="white">cvnNumber.</span><span class="function">range</span><span class="white">(of: regex, options: .</span><span class="function">regularExpression</span><span class="white">) </span><span class="function">== </span><span class="pink">nil </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-7">return false</span>
+                                        <br>
+                                            <span class="white pl-5">}</span>
+                                        <br>
+                                            <span class="pink pl-5">return true</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="pink pl-4">return false</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="expdate">2.5 Expiry Date</h5>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">// Validar formato de fecha de caducidad. Sólo permite 4 caracteres numéricos. El mes debe estar entre 1 y 12</span>
+                                        <br>
+                                            <span class="pink">class func </span><span class="variables">validateExpiryDateFormat</span><span class="white">(</span><span class="pink">_ </span><span class="white">expiryDate: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-3 pink">if let </span><span class="white">date = expiryDate {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// El número no puede ser mayor a 4 caracteres</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">regex = </span><span class="orange">"^\\d{4}$"</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">date.</span><span class="function">ramge</span><span class="white">(of: regex, options: .</span><span class="function">regularExpression</span><span class="white">) </span><span class="function">== </span><span class="pink">nil </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-7 pink">return false</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">month = </span><span class="purple">Int</span><span class="white">(date[date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">0</span><span class="white">) </span><span class="function">..< </span><span class="white">date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">2</span><span class="white">)])!</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 comments">// Comprueba que el mes sea entre 1 y 12</span>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">(month </span><span class="function">< </span><span class="yellow">1 </span><span class="function">|| </span><span class="white">month </span><span class="function">> </span><span class="yellow">12</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-7 pink">return false</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-5 pink">return true</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="pl-4 pink">return false</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="expact">2.6 Expiry Date actual o superior</h5>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">// Validar la fecha de caducidad para que sea igual o superior a la actual. También ejecuta la comprobación de la fecha desde validateExpiryDateFormat</span>
+                                        <br>
+                                            <span class="pink">class func </span><span class="variables">validateExpiryDateNotInPast</span><span class="white">(</span><span class="pink">_ </span><span class="white">expiryDate: </span><span class="purple">String</span><span class="white">?) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-4">if let </span><span class="white">date = expiryDate {</span>
+                                        <br>
+                                            <span class="pl-5 pink">if self</span><span class="white">.</span><span class="service">validateExpiryDateFormat</span><span class="white">(date) </span><span class="function">== </span><span class="pink">false </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-6 pink">return false</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">month = </span><span class="purple">Int</span><span class="white">(date[date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">0</span><span class="white">) </span><span class="function">..< </span><span class="white">date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">2</span><span class="white">)])</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">year = </span><span class="purple">Int</span><span class="white">(date[date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">2</span><span class="white">) </span><span class="function">..< </span><span class="white">date.</span><span class="function">index</span><span class="white">(date.</span><span class="function">startIndex</span><span class="white">, offsetBy: </span><span class="yellow">4</span><span class="white">)])</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">components = (</span><span class="purple">Calendar</span><span class="white">.</span><span class="function">current </span><span class="pink">as </span><span class="purple">NSCalendar</span><span class="white">).</span><span class="function">components</span><span class="white">([</span><span class="purple">NSCalendar</span><span class="white">.</span><span class="purple">Unit</span><span class="white">.</span><span class="function">year</span><span class="white">, </span><span class="purple">NSCalendar</span><span class="white">.</span><span class="purple">Unit</span><span class="white">.</span><span class="function">month</span><span class="white">], from: </span><span class="purple">Date</span><span class="white">())</span>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">currentMonth = components.</span><span class="function">month</span>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">currentYear = components.</span><span class="function">year</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 pink">if </span><span class="white">(year! </span><span class="function">< </span><span class="white">(currentYear! </span><span class="function">% </span><span class="yellow">100</span><span class="white">)) {</span>
+                                        <br>
+                                            <span class="pl-7 pink">return false</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 white">} </span><span class="pink">else if </span><span class="white">(year! </span><span class="function">== </span><span class="white">(currentYear! </span><span class="function">% </span><span class="yellow">100</span><span class="white">) </span><span class="function">&& </span><span class="white">month! </span><span class="function">< </span><span class="white">currentMonth!) {</span>
+                                        <br>
+                                            <span class="pl-7 pink">return false</span><span class="white">;</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-5 pink">return true</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="pl-4 pink">return false</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+                            </div>            
+                        </div>
+                        <!-- /Punto 2 -->
+                    </div>
+                    <!-- /Contenido común -->
+
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../assets/js/barraprogreso.js"></script>
+    </body>
+</html>

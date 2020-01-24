@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Víctor Cantera">
+        <link rel="icon" href="../../assets/img/comercia_ico.png" type="image/x-icon"/ >
+        <title>Operativa API - SDK iOS</title>
+
+        <!-- Bootstrap 4.3.1 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../assets/css/style.css">
+    </head>
+
+    <body>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-rpdc mb-3">
+            <a class="navbar-brand">
+                <img src="../../assets/img/log2.svg" width="30" height="30" class="img-fluid" alt="Logo Addon Payments">
+                <span class="addonNav">ADDON</span> <span>PAYMENTS</span>
+                <span class="d-none d-sm-none d-lg-inline d-xl-inline sdkNav">
+                    <span>
+                        /SDK
+                        <span class="barraNav">_</span>
+                        de
+                        <span class="barraNav">_</span>
+                        iOS
+                    </span>
+                </span>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto pl-2 pr-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Inicio
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2" href="../../index.html">Índice</a>
+                            <a class="dropdown-item pl-2" href="../errores.html">Errores de Addon Payments</a>
+                            <a class="dropdown-item pl-2" href="../informe.html">Convertir informe</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagos con tarjeta
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header text-center p-0">API</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2 active" href="#">Operación API</a>
+                            <hr class="m-0 p-0">
+                            <div class="dropdown-header text-center p-0">HPP</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2" href="../HPP/index.html">Operación HPP</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Validadores
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html">Validadores</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#cardholder">Nombre del titular</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#numberCard">Número de tarjeta</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#cvn">CVN</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#expdate">Mes</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#expact">Año</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /NAVBAR -->
+        
+        <div class="col-lg-12"> 
+            <div id="contenidoComun" class="container-fluid">
+                <div class="row">
+
+                    <!-- Menú lateral -->
+                    <div class="col-lg-2 sticky-top d-none d-sm-none d-lg-block d-xl-block MenuLateral">
+
+                        <!-- Barra de progreso -->
+                        <div class="progress-bar" id="progreso"></div>
+                        <!-- /Barra de progreso -->
+
+                        <nav class="navbar sticky-top navbar-light" style="padding: 0px;">
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#api">1. Operativa API</a>
+                                <nav>
+                                  <a class="nav-link ml-3 my-1" href="#codigoEjemplo">1.1 Código de ejemplo</a>
+                                </nav>
+                                <a class="nav-link" href="#descripciones">2. Descripciones</a>
+                                <nav class="nav nav-pills flex-column">
+                                  <a class="nav-link ml-3 my-1" href="#union">2.1 Unión de campos</a>
+                                  <a class="nav-link ml-3 my-1" href="#override">2.2 Override</a>
+                                  <a class="nav-link ml-3 my-1" href="#maxlength">2.3 MaxLength</a>
+                                  <a class="nav-link ml-3 my-1" href="#validacioncampos">2.4 Validación de campos</a>
+                                  <a class="nav-link ml-3 my-1" href="#envioOP">2.5 Envío API</a>
+                                </nav>
+                            </nav>
+                        </nav>
+                    </div>
+                    <!-- /Menú lateral -->
+
+                    <!-- Contenido común -->
+                    <div class="col-lg-10" >
+
+                        <!-- Punto 1-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 pb-4 mb-3 text-justify">
+                                <h3 id="api" class="titulo">
+                                    1. Operación a través de API
+                                </h3>
+                                <hr>
+
+                                <p>
+                                    Para procesar una transacción desde un cliente iOS, debe enviar los datos de la tarjeta a su servidor con una de <a target="_blank" href="https://github.com/AddonPayments/">nuestras librerías</a> preparadas para procesar pagos.
+                                </p>
+                                    Hemos creado las clases para validar y verificar los campos de su formulario en iOS antes de enviar la operación al servidor. Los comercios que capturan datos en su aplicación (y en su servidor) deben ser conscientes de sus <a target="_blank" href="https://www.pcisecuritystandards.org/">responsabilidades de cumplimiento de PCI DSS.</a>
+                                </p>
+
+                                <p>
+                                    En <a target="_blank" href="https://github.com/AddonPayments/ios-sdk">nuestro GitHub</a> podrán descargar el proyecto de prueba donde mostramos como funciona la pasarela de pagos en remoto (API) y redirección (HPP).
+                                </p>
+
+                                <small class="form-text text-muted alert alert-info">
+                                    -> La documentación se ha desarrollado en Xcode 11 bajo Swift 5.1 en la versión de iOS 13.1.
+                                </small>
+
+                                <h5 class="pt-3" id="codigoEjemplo">1.1 Código de ejemplo (archivo ApiController.swift)</h5>
+
+                                <hr>
+
+                                <p>
+                                    Archivo "ApiController.swift"
+                                </p>
+
+                                <div class="p-4 panelCode">
+                                    <code>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="comments">//  ApiController.swift</span>
+                                        <br>
+                                            <span class="comments">//  addonpayments</span>
+                                        <br>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="comments">//  Created by Comercia on 2020.</span>
+                                        <br>
+                                            <span class="comments">//  Copyright © 2020 Addon Payments. All rights reserved.</span>
+                                        <br>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="pink">import </span><span class="white">Foundation</span>
+                                        <br>
+                                            <span class="pink">import </span><span class="white">UIKit</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink">class </span><span class="controller">ApiController</span><span class="white">: </span><span class="purple">UIViewController</span><span class="white">, </span><span class="purple">UITextFieldDelegate </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Inicializamos las variables indicando su tipo correspondiente</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">numTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">mesTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">anyTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">cvvTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">titularTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">expiryDate</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">isValidCard</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">isValidMes</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">isValidPast</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">isValidCVV</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-3">var </span><span class="variables">isValidHolder</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Unimos los campos de texto del formulario creado en el StoryBoard</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">NumTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">MesTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">AnyTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">CvvTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">TitularTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet var </span><span class="variables">enviarAPI</span><span class="white">: </span><span class="purple">UIButton</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet weak var </span><span class="variables">message</span><span class="white">: </span><span class="purple">UILabel</span><span class="white">!</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Inicializamos los campos de validación</span>
+                                        <br>
+                                            <span class="pink pl-3">override func </span><span class="variables">viewDidLoad</span><span class="white">() {</span>
+                                        <br>
+                                            <span class="pink pl-5">super</span><span class="white">.</span><span class="function">viewDidLoad</span><span class="white">()</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-5">validateField</span><span class="white">(sender: </span><span class="purple">UITextField</span><span class="white">())</span>
+                                        <br>
+                                            <span class="service pl-5">NumTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                        <br>
+                                            <span class="service pl-5">MesTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                        <br>
+                                            <span class="service pl-5">AnyTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                        <br>
+                                            <span class="service pl-5">CvvTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">override func </span><span class="variables">touchesBegan</span><span class="white">(</span><span class="pink">_ </span><span class="white">touches: </span><span class="purple">Set</span><span class="white"><</span><span class="purple">UITouch</span><span class="white">>, with event: </span><span class="purple">UIEvent</span><span class="white">?) {</span>
+                                        <br>
+                                            <span class="function pl-5">view</span><span class="white">.</span><span class="function">endEditing</span><span class="white">(</span><span class="pink">true</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pink pl-5">super</span><span class="white">.</span><span class="function">touchesBegan</span><span class="white">(touches, with: event)</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Función que valida el tamaño máximo de caracteres en los campos de texto</span>
+                                        <br>
+                                            <span class="pink pl-3">func </span><span class="variables">textField</span><span class="white">(</span><span class="pink">_ </span><span class="white">textfield: </span><span class="purple">UITextField</span><span class="white">, shouldChangeCharactersIn range: </span><span class="purple">NSRange</span><span class="white">, replacementString string: </span><span class="purple">String</span><span class="white">) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">switch </span><span class="white">textField {</span>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">NumTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">maxLength = </span><span class="yellow">19</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">MesTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">maxLength = </span><span class="yellow">2</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">AnyTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">maxLength = </span><span class="yellow">2</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">CvvTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">maxLength = </span><span class="yellow">4</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-7">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">default </span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-6">return true </span>
+                                        <br>
+                                            <span class="white pl-5">}</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Función que valida la información que se introduce en los campos del formulario</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBAction func </span><span class="variables">validateField</span><span class="white">(sender: </span><span class="purple">AnyObject</span><span class="white">) {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">switch </span><span class="white">(sender </span><span class="pink">as</span><span class="white">! </span><span class="purple">UITextField</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">NumTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCard </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-7">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="white">= </span><span class="service">NumTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-7">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardNumber</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">numTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-8">isValidCard </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">AnyTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-7">isValidPast </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-7">self</span><span class="white">.</span><span class="service">expiryDate </span><span class="white">= </span><span class="service">MesTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">! </span><span class="function">+ </span><span class="service">AnyTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-7">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateExpiryDateNotInPast</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">expiryDate</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-8">isValidPast </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">CvvTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCVV </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-7">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="white">= </span><span class="service">CvvTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-7">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCvn</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">cvvTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-8">isValidCVV </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-6">case </span><span class="service">TitularTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-7">isValidHolder </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-7">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">= </span><span class="service">TitularTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-7">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardHolderName</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">titularTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-8">isValidHolder </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-7">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">default </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-7">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="service pl-7">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="service pl-7">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="service pl-7">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">0.5</span><span class="white">)</span>
+                                        <br>
+                                            <span class="service pl-7">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="white pl-5">}</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">func </span><span class="variables">isValid</span><span class="white">(card: </span><span class="purple">Bool</span><span class="white">, past: </span><span class="purple">Bool</span><span class="white">, cvv: </span><span class="purple">Bool</span><span class="white">, titular: </span><span class="purple">Bool</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-5 pink">if</span><span class="white">(titular </span><span class="function">&& </span><span class="white">cvv </span><span class="function">&& </span><span class="white">past </span><span class="function">&& </span><span class="white">card) {</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">1.0</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="pl-5 white">} </span><span class="pink">else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">0.5</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-7 service">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-3 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Función que envía la operación al servidor</span>
+                                        <br>
+                                            <span class="pl-3 pink"> @IBAction func </span><span class="variables">envioOPAPI</span><span class="white">(</span><span class="pink">_ </span><span class="white">sender: </span><span class="purple">UIButton</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-5 pink">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="white">= </span><span class="service">NumTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pl-5 pink">self</span><span class="white">.</span><span class="service">mesTarjeta </span><span class="white">= </span><span class="service">MesTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pl-5 pink">self</span><span class="white">.</span><span class="service">anyTarjeta </span><span class="white">= </span><span class="service">AnyTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pl-5 pink">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="white">= </span><span class="service">CvvTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pl-5 pink">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">= </span><span class="service">TitularTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Indicamos la URL de nuestro servidor</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: </span><span class="orange">"https://midomino.es/Auth.php"</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-5 pink">guard let </span><span class="white">requestUrl = url </span><span class="pink">else </span><span class="white">{ </span><span class="function">fatalError</span><span class="white">() }</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Indicamos método de envío</span>
+                                        <br>
+                                            <span class="pl-5 pink">var </span><span class="white">request = </span><span class="purple">URLRequest</span><span class="white">(url: requestUrl)</span>
+                                        <br>
+                                            <span class="pl-5 white">request.</span><span class="function">httpMethod </span><span class="white">= </span><span class="orange">"POST"</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Asociamos los parámetros que vamos a enviar</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">postString = </span><span class="orange">"numero=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="function">+ </span><span class="orange">"&mes=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">mesTarjeta </span><span class="function">+ </span><span class="orange">"&any=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">anyTarjeta </span><span class="function">+ </span><span class="orange">"&cvv=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="function">+ </span><span class="orange">"&nombre=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">;</span>
+                                        <br>
+                                        <br>
+                                            <span class="pl-5 white">request.</span><span class="function">httpBody </span><span class="white">= postString.</span><span class="function">data</span><span class="white">(using: </span><span class="purple">String</span><span class="white">.</span><span class="purple">Encoding</span><span class="white">.</span><span class="function">utf8</span><span class="white">);</span>
+                                        <br>
+                                            <span class="pl-5 pink">let </span><span class="white">task = </span><span class="purple">URLSession</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">dataTask</span><span class="white">(with: request) { (data, response, error) </span><span class="pink">in</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-6">// En caso de error mostramos la respuesta</span>
+                                        <br>
+                                            <span class="pl-6 pink">if let </span><span class="white">error = error {</span>
+                                        <br>
+                                            <span class="pl-7 purple">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-8 pink">self</span><span class="service">message</span><span class="white">.</span><span class="function">text </span><span class="white">= </span><span class="orange">"Respuesta\n\n</span><span class="white">\(error)</span><span class="orange">"</span>
+                                        <br>
+                                            <span class="pl-7 white">}</span>
+                                        <br>
+                                            <span class="pl-7 pink">return</span>
+                                        <br>
+                                            <span class="pl-6 white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-6">// Si la transacción se ha realizado correctamente mostramos la respuesta</span>
+                                        <br>
+                                            <span class="pl-6 pink">if let </span><span class="white">data = data, </span><span class="pink">let </span><span class="white">dataString = </span><span class="purple">String</span><span class="white">(data: data, encoding: .</span><span class="function">utf8</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-7 purple">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-8 pink">self</span><span class="service">message</span><span class="white">.</span><span class="function">text </span><span class="white">= </span><span class="orange">"Respuesta\n\n</span><span class="white">\(dataString)</span><span class="orange">"</span>
+                                        <br>
+                                            <span class="pl-7 white">}</span>
+                                        <br>
+                                            <span class="pl-6 white">}</span>
+                                        <br>
+                                            <span class="pl-5 white">}</span>
+                                        <br>
+                                            <span class="pl-5 white">task.</span><span class="function">resume</span><span class="white">()</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+                            </div>            
+                        </div>
+                        <!-- /Punto 1-->
+
+                        <!-- Punto 2-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 mb-3 pb-2 text-justify">
+                                <h3 class="pt-1" id="descripciones">
+                                    2. Descripciones
+                                </h3>
+                                <hr>
+                                
+                                <h5 id="union">2.1 Unión de campos</h5>
+                                    <p>
+                                       Debemos unir los campos del formulario que hemos creado en el archivo "Main.storyboard" en nuestro "ApiController.swift" y declarar variables vacías de tipo String para cada campo.
+                                    </p>
+
+                                    <p>
+                                        Además, debemos declarar variables de tipo boolean con valor "false" que posteriormente utilizaremos para realizar las comprobaciones de los campos del formulario:
+                                    </p>
+
+                                    <div class="p-3 panelCode">
+                                        <code>
+                                                <span class="comments">// Inicializamos las variables indicando su tipo correspondiente</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">numTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">mesTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">anyTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">cvvTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">titularTarjeta</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">expiryDate</span><span class="white">:</span><span class="purple">String </span><span class="white">= </span><span class="orange">""</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">isValidCard</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">isValidMes</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">isValidPast</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">isValidCVV</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                            <br>
+                                                <span class="pink">var </span><span class="variables">isValidHolder</span><span class="white">:</span><span class="purple">Bool </span><span class="white">= </span><span class="pink">false</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments">// Unimos los campos de texto del formulario creado en el StoryBoard</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">NumTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">MesTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">AnyTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">CvvTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">TitularTarjeta</span><span class="white">: </span><span class="purple">UITextField</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet var </span><span class="variables">enviarAPI</span><span class="white">: </span><span class="purple">UIButton</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet weak var </span><span class="variables">message</span><span class="white">: </span><span class="purple">UILabel</span><span class="white">!</span>
+                                        </code>
+                                    </div>
+
+                                <hr>
+
+                                <h5 id="override" class="mt-3">2.2 Override</h5>
+                                    <p>
+                                        Para iniciar los validadores al cargar la ventana, debemos emplear la función "viewDidLoad()".
+                                    </p>
+
+                                    <p>
+                                        Una vez escribimos en un campo de texto y salimos de este el teclado no desaparece por si solo, debemos llamar a la función "touchesBegan()" para que desaparezca una vez salimos del focus:  
+                                    </p>
+                                   <div class="p-3 panelCode">
+                                       <code>
+                                                <span class="comments">// Inicializamos los campos de validación</span>
+                                            <br>
+                                                <span class="pink">override func </span><span class="variables">viewDidLoad</span><span class="white">() {</span>
+                                            <br>
+                                                <span class="pink pl-3">super</span><span class="white">.</span><span class="function">viewDidLoad</span><span class="white">()</span>
+                                            <br>
+                                            <br>
+                                                <span class="service pl-3">validateField</span><span class="white">(sender: </span><span class="purple">UITextField</span><span class="white">())</span>
+                                            <br>
+                                                <span class="service pl-3">NumTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                            <br>
+                                                <span class="service pl-3">MesTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                            <br>
+                                                <span class="service pl-3">AnyTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                            <br>
+                                                <span class="service pl-3">CvvTarjeta</span><span class="white">.</span><span class="function">delegate </span><span class="white">= </span><span class="pink">self</span>
+                                            <br>
+                                                <span class="white">}</span>
+                                            <br>
+                                            <br>
+                                                <span class="pink">override func </span><span class="variables">touchesBegan</span><span class="white">(</span><span class="pink">_ </span><span class="white">touches: </span><span class="purple">Set</span><span class="white"><</span><span class="purple">UITouch</span><span class="white">>, with event: </span><span class="purple">UIEvent</span><span class="white">?) {</span>
+                                            <br>
+                                                <span class="function pl-3">view</span><span class="white">.</span><span class="function">endEditing</span><span class="white">(</span><span class="pink">true</span><span class="white">)</span>
+                                            <br>
+                                                <span class="pink pl-3">super</span><span class="white">.</span><span class="function">touchesBegan</span><span class="white">(touches, with: event)</span>
+                                            <br>
+                                                <span class="white">}</span>
+                                        </code>
+                                    </div>
+
+                                <hr>
+
+                                <h5 id="maxlength" class="mt-3">
+                                    2.3 MaxLength
+                                </h5>
+
+                                 <p>
+                                   Ponemos un límite a los campos para que los clientes no introduzcan más datos de los necesarios habitualmente en las tarjetas de crédito (número de tarjeta, mes de expiración, año de expiración y código de seguridad):
+                                </p>
+                               <div class="p-3 panelCode">
+                                   <code>
+                                            <span class="comments">// Función que valida el tamaño máximo de caracteres en los campos de texto</span>
+                                        <br>
+                                            <span class="pink">func </span><span class="variables">textField</span><span class="white">(</span><span class="pink">_ </span><span class="white">textfield: </span><span class="purple">UITextField</span><span class="white">, shouldChangeCharactersIn range: </span><span class="purple">NSRange</span><span class="white">, replacementString string: </span><span class="purple">String</span><span class="white">) -> </span><span class="purple">Bool </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-4">switch </span><span class="white">textField {</span>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">NumTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">maxLength = </span><span class="yellow">19</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">MesTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">maxLength = </span><span class="yellow">2</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">AnyTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">maxLength = </span><span class="yellow">2</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">CvvTarjeta</span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">maxLength = </span><span class="yellow">4</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">currentString: </span><span class="purple">NSString </span><span class="white">= textField.</span><span class="function">text</span><span class="white">! </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">let </span><span class="white">newString: </span><span class="purple">NSString </span><span class="white">= currentString.</span><span class="function">replacingCharacters</span><span class="white">(in: range, with: string) </span><span class="pink">as </span><span class="purple">NSString</span>
+                                        <br>
+                                            <span class="pink pl-6">return </span><span class="white">newString.</span><span class="function">length <= </span><span class="white">maxLength</span>
+                                        <br>
+                                            <span class="pink pl-4">default </span><span class="white">:</span>
+                                        <br>
+                                            <span class="pink pl-5">return true </span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="validacioncampos" class="mt-3">
+                                    2.4 Validación de campos
+                                </h5>
+
+                                <small class="form-text text-muted alert alert-primary">
+                                    -> En nuestro proyecto debe estar el archivo de validación "RemoteValidators.swift". Este archivo contiene la lógica de validación que admite el procesador de pagos Realex.
+                                </small>
+
+                                <p>
+                                    Validamos cada campo antes de enviar la operación para evitar enviar información errónea al servidor, como por ejemplo caracteres no permitidos.
+                                </p>
+
+                                <p>
+                                    Esta función comprueba los campos de texto llamando al archivo validador, en caso de que devuelva un resultado erróneo se llamará a la función "isValid" para indicar que uno de los parámetros es falso y el botón debe estar desactivado para que no pueda ser pulsado: 
+                                </p>
+
+                                <div class="p-3 panelCode">
+                                    <code>
+                                            <span class="comments">// Función que valida la información que se introduce en los campos del formulario</span>
+                                        <br>
+                                            <span class="pink">@IBAction func </span><span class="variables">validateField</span><span class="white">(sender: </span><span class="purple">AnyObject</span><span class="white">) {</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-4">switch </span><span class="white">(sender </span><span class="pink">as</span><span class="white">! </span><span class="purple">UITextField</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">NumTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidCard </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="white">= </span><span class="service">NumTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardNumber</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">numTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCard </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-6">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">AnyTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidPast </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">expiryDate </span><span class="white">= </span><span class="service">MesTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">! </span><span class="function">+ </span><span class="service">AnyTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateExpiryDateNotInPast</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">expiryDate</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidPast </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-6">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">CvvTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidCVV </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="white">= </span><span class="service">CvvTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCvn</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">cvvTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidCVV </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-6">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">case </span><span class="service">TitularTarjeta </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">isValidHolder </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pink pl-6">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">= </span><span class="service">TitularTarjeta</span><span class="white">.</span><span class="function">text</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-6">if </span><span class="white">(</span><span class="service">RemoteValidators</span><span class="white">.</span><span class="service">validateCardHolderName</span><span class="white">(</span><span class="pink">self</span><span class="white">.</span><span class="service">titularTarjeta</span><span class="white">) </span><span class="function">== </span><span class="pink">true</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="service pl-7">isValidHolder </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-6">isValid</span><span class="white">(card: </span><span class="service">isValidHolder</span><span class="white">, past: </span><span class="service">isValidCVV</span><span class="white">, cvv: </span><span class="service">isValidPast</span><span class="white">, titular: </span><span class="service">isValidCard</span><span class="white">)</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-4">default </span><span class="white">:</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">0.5</span><span class="white">)</span>
+                                        <br>
+                                            <span class="service pl-6">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink">func </span><span class="variables">isValid</span><span class="white">(card: </span><span class="purple">Bool</span><span class="white">, past: </span><span class="purple">Bool</span><span class="white">, cvv: </span><span class="purple">Bool</span><span class="white">, titular: </span><span class="purple">Bool</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="pl-4 pink">if</span><span class="white">(titular </span><span class="function">&& </span><span class="white">cvv </span><span class="function">&& </span><span class="white">past </span><span class="function">&& </span><span class="white">card) {</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">1.0</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="pl-4 white">} </span><span class="pink">else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">isEnabled </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">backgroundColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">(red: </span><span class="yellow">70.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, green: </span><span class="yellow">127.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, blue: </span><span class="yellow">243.0</span><span class="purple">/</span><span class="yellow">255.0</span><span class="white">, alpha: </span><span class="yellow">0.5</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pl-6 service">enviarAPI</span><span class="white">.</span><span class="function">tintColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">white</span>
+                                        <br>
+                                            <span class="pl-4 white">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="envioOP" class="mt-3">2.5 Envío API</h5>
+                                    <p>
+                                        Enviamos la operación a nuestro servidor concatenando los parámetros que hay introducidos en los campos de texto del formulario cuando el cliente pulsa el botón "Enviar operación".
+                                    </p>
+
+                                    <p>
+                                        Para ello debemos asociar las variables que hemos declarado al principio del archivo como String indicando que su valor es igual al valor del campo de texto del formulario. Posteriormente debemos configurar la petición para indicándole nuestra URL del servidor que va a procesar la soliciutd, el método de envío (POST) y los parámetros que deseamos enviar hacia nuestro servidor.
+                                    </p>
+
+                                    <p>
+                                        En nuestro caso hemos indicado que los parámetros que vamos a recibir por post son los siguientes:
+                                        <ul>
+                                            <li>numero = Contiene el valor del campo de texto "NumTarjeta"</li>
+                                            <li>mes = Contiene el valor del campo de texto "MesTarjeta"</li>
+                                            <li>any = Contiene el valor del campo de texto "AnyTarjeta"</li>
+                                            <li>cvv = Contiene el valor del campo de texto "CvvTarjeta"</li>
+                                            <li>nombre = Contiene el valor del campo de texto "TitularTarjeta"</li>
+                                        </ul>
+                                    </p>
+
+                                    <p>
+                                        Independientemente de que la transacción de un error o se realice correctamente debemos indicar en nuestro código que esperamos recibir la respuesta de forma asíncrona llamando al objeto "DispatchQueue.main.async{}":
+                                    </p>
+                                   <div class="p-3 mb-2 panelCode">
+                                       <code>
+                                                <span class="comments">// Función que envía la operación al servidor</span>
+                                            <br>
+                                                <span class="pink"> @IBAction func </span><span class="variables">envioOPAPI</span><span class="white">(</span><span class="pink">_ </span><span class="white">sender: </span><span class="purple">UIButton</span><span class="white">) {</span>
+                                            <br>
+                                                <span class="pl-4 pink">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="white">= </span><span class="service">NumTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pl-4 pink">self</span><span class="white">.</span><span class="service">mesTarjeta </span><span class="white">= </span><span class="service">MesTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pl-4 pink">self</span><span class="white">.</span><span class="service">anyTarjeta </span><span class="white">= </span><span class="service">AnyTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pl-4 pink">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="white">= </span><span class="service">CvvTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pl-4 pink">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">= </span><span class="service">TitularTarjeta</span><span class="white">.</span><span class="function">test</span><span class="white">!</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments pl-5">// Indicamos la URL de nuestro servidor</span>
+                                            <br>
+                                                <span class="pl-4 pink">let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: </span><span class="orange">"https://midomino.es/Auth.php"</span><span class="white">)</span>
+                                            <br>
+                                                <span class="pl-4 pink">guard let </span><span class="white">requestUrl = url </span><span class="pink">else </span><span class="white">{ </span><span class="function">fatalError</span><span class="white">() }</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments pl-4">// Indicamos método de envío</span>
+                                            <br>
+                                                <span class="pl-4 pink">var </span><span class="white">request = </span><span class="purple">URLRequest</span><span class="white">(url: requestUrl)</span>
+                                            <br>
+                                                <span class="pl-4 white">request.</span><span class="function">httpMethod </span><span class="white">= </span><span class="orange">"POST"</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments pl-4">// Asociamos los parámetros que vamos a enviar</span>
+                                            <br>
+                                                <span class="pl-4 pink">let </span><span class="white">postString = </span><span class="orange">"numero=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">numTarjeta </span><span class="function">+ </span><span class="orange">"&mes=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">mesTarjeta </span><span class="function">+ </span><span class="orange">"&any=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">anyTarjeta </span><span class="function">+ </span><span class="orange">"&cvv=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">cvvTarjeta </span><span class="function">+ </span><span class="orange">"&nombre=" </span><span class="function">+ </span><span class="pink">self</span><span class="white">.</span><span class="service">titularTarjeta </span><span class="white">;</span>
+                                            <br>
+                                            <br>
+                                                <span class="pl-4 white">request.</span><span class="function">httpBody </span><span class="white">= postString.</span><span class="function">data</span><span class="white">(using: </span><span class="purple">String</span><span class="white">.</span><span class="purple">Encoding</span><span class="white">.</span><span class="function">utf8</span><span class="white">);</span>
+                                            <br>
+                                                <span class="pl-4 pink">let </span><span class="white">task = </span><span class="purple">URLSession</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">dataTask</span><span class="white">(with: request) { (data, response, error) </span><span class="pink">in</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments pl-5">// En caso de error mostramos la respuesta</span>
+                                            <br>
+                                                <span class="pl-5 pink">if let </span><span class="white">error = error {</span>
+                                            <br>
+                                                <span class="pl-6 purple">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                            <br>
+                                                <span class="pl-7 pink">self</span><span class="service">message</span><span class="white">.</span><span class="function">text </span><span class="white">= </span><span class="orange">"Respuesta\n\n</span><span class="white">\(error)</span><span class="orange">"</span>
+                                            <br>
+                                                <span class="pl-6 white">}</span>
+                                            <br>
+                                                <span class="pl-6 pink">return</span>
+                                            <br>
+                                                <span class="pl-5 white">}</span>
+                                            <br>
+                                            <br>
+                                                <span class="comments pl-5">// Si la transacción se ha realizado correctamente mostramos la respuesta</span>
+                                            <br>
+                                                <span class="pl-5 pink">if let </span><span class="white">data = data, </span><span class="pink">let </span><span class="white">dataString = </span><span class="purple">String</span><span class="white">(data: data, encoding: .</span><span class="function">utf8</span><span class="white">) {</span>
+                                            <br>
+                                                <span class="pl-6 purple">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                            <br>
+                                                <span class="pl-7 pink">self</span><span class="service">message</span><span class="white">.</span><span class="function">text </span><span class="white">= </span><span class="orange">"Respuesta\n\n</span><span class="white">\(dataString)</span><span class="orange">"</span>
+                                            <br>
+                                                <span class="pl-6 white">}</span>
+                                            <br>
+                                                <span class="pl-4 white">}</span>
+                                            <br>
+                                                <span class="pl-3 white">task.</span><span class="function">resume</span><span class="white">()</span>
+                                            <br>
+                                                <span class="white">}</span>
+                                        </code>
+                                    </div>
+
+                            </div>            
+                        </div>
+                        <!-- /Punto 2 -->
+                    </div>
+                    <!-- /Contenido común -->
+
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../assets/js/barraprogreso.js"></script>
+    </body>
+</html>

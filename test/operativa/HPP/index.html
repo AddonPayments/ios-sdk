@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Víctor Cantera">
+        <link rel="icon" href="../../assets/img/comercia_ico.png" type="image/x-icon"/ >
+        <title>Operativa HPP - SDK iOS</title>
+
+        <!-- Bootstrap 4.3.1 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../assets/css/style.css">
+    </head>
+
+    <body>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-rpdc mb-3">
+            <a class="navbar-brand">
+                <img src="../../assets/img/log2.svg" width="30" height="30" class="img-fluid" alt="Logo Addon Payments">
+                <span class="addonNav">ADDON</span> <span>PAYMENTS</span>
+                <span class="d-none d-sm-none d-lg-inline d-xl-inline sdkNav">
+                    <span>
+                        /SDK
+                        <span class="barraNav">_</span>
+                        de
+                        <span class="barraNav">_</span>
+                        iOS
+                    </span>
+                </span>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto pl-2 pr-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Inicio
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2" href="../../index.html">Índice</a>
+                            <a class="dropdown-item pl-2" href="../errores.html">Errores de Addon Payments</a>
+                            <a class="dropdown-item pl-2" href="../informe.html">Convertir informe</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagos con tarjeta
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header text-center p-0">API</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2" href="../API/index.html">Operación API</a>
+                            <hr class="m-0 p-0">
+                            <div class="dropdown-header text-center p-0">HPP</div>
+                            <hr class="m-0 p-0">
+                                <a class="dropdown-item pl-2 active" href="#">Operación HPP</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-1 dropdown">
+                        <a class="nav-link pl-2 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Validadores
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html">Validadores</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#cardholder">Nombre del titular</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#numberCard">Número de tarjeta</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#cvn">CVN</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#expdate">Mes</a>
+                            <a class="dropdown-item pl-2" href="../validadores/validadores.html#expact">Año</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /NAVBAR -->
+
+        <div class="col-lg-12"> 
+            <div id="contenidoComun" class="container-fluid">
+                <div class="row">
+
+                    <!-- Menú lateral -->
+                    <div class="col-lg-2 sticky-top d-none d-sm-none d-lg-block d-xl-block MenuLateral">
+
+                        <!-- Barra de progreso -->
+                        <div class="progress-bar" id="progreso"></div>
+                        <!-- /Barra de progreso -->
+
+                        <nav class="navbar sticky-top navbar-light" style="padding: 0px;">
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#hpp">1. Operativa HPP</a>
+                                <nav>
+                                  <a class="nav-link ml-3 my-1" href="#codigoEjemplo">1.1 Código de ejemplo</a>
+                                </nav>
+                                <a class="nav-link" href="#descripciones">2. Descripciones</a>
+                                <nav class="nav nav-pills flex-column">
+                                  <a class="nav-link ml-3 my-1" href="#union">2.1 Unión de campos</a>
+                                  <a class="nav-link ml-3 my-1" href="#override">2.2 Override</a>
+                                  <a class="nav-link ml-3 my-1" href="#estilos">2.3 Estilos</a>
+                                  <a class="nav-link ml-3 my-1" href="#envioHPP">2.4 Envío HPP</a>
+                                </nav>
+                            </nav>
+                        </nav>
+                    </div>
+                    <!-- /Menú lateral -->
+
+                    <!-- Contenido común -->
+                    <div class="col-lg-10" >
+
+                        <!-- Punto 1-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 pb-4 mb-3 text-justify">
+                                <h3 id="hpp" class="titulo">
+                                    1. Operación a través de HPP
+                                </h3>
+                                <hr>
+
+                                <p>
+                                    Hosted Payment Page (HPP) es nuestro PCI DSS v3.2 que cumple con la solución Redirect. Permite a los comercios aceptar fácilmente los datos de las tarjetas en su aplicación, al mismo tiempo que reducen considerablemente los requisitos de cumplimiento de PCI asociados a la recopilación de datos de tarjetas. Los comercios que utilizan la HPP pueden acreditar su cumplimiento de PCI rellenando un breve Cuestionario de autoevaluación de la <a target="_blank" href="https://www.pcisecuritystandards.org/">PCI DSS (SAQ) A</a>.
+                                    <small class="form-text text-muted alert alert-primary">
+                                        --&gt; Los clientes deben tener activado Javascript en sus navegadores para que la HPP funcione correctamente.
+                                        Las solicitudes se deben enviar a Addon Payments una vez finalizada la compra, cuando se conozca el importe total del pago. No se precisa ninguna información sobre los contenidos del pedido para que Addon Payments procese la transacción. Sin embargo, puedes enviar toda la información sobre el pedido que desees a Addon Payments; el sistema de Addon Payments ignorará esta información, pero se enviará de vuelta junto con tu script de respuesta una vez procesada la transacción.
+                                    </small>
+                                </p>
+                                <p>
+                                    <b>La HPP tiene dos URL diferentes</b> para el modo de prueba y el modo activo. La primera vez que crees una cuenta con Addon Payments, la cuenta se establecerá en el modo de prueba. Te recomendamos procesar varias transacciones en el modo de prueba antes de activar la cuenta para asegurarte de que se realizan correctamente.
+                                    <ul>
+                                        <li>
+                                            <b>URL para transacciones activas:</b> https://hpp.addonpayments.com/pay
+                                        </li>
+                                        <li>
+                                            <b>URL para transacciones de prueba:</b> https://hpp.sandbox.addonpayments.com/pay
+                                        </li>
+                                    </ul>
+                                </p>
+
+                                <p>
+                                    En <a target="_blank" href="https://github.com/AddonPayments/ios-sdk">nuestro GitHub</a> podrán descargar el proyecto de prueba donde mostramos como funciona la pasarela de pagos en remoto (API) y redirección (HPP).
+                                </p>
+
+                                <small class="form-text text-muted alert alert-info">
+                                    -> La documentación se ha desarrollado en Xcode 11 bajo Swift 5.1 en la versión de iOS 13.1.
+                                </small>
+
+                                <h5 class="pt-3" id="codigoEjemplo">1.1 Código de ejemplo (archivo HppController.swift)</h5>
+
+                                <hr>
+
+                                <div class="p-3 panelCode">
+                                    <code>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="comments">//  HppController.swift</span>
+                                        <br>
+                                            <span class="comments">//  addonpayments</span>
+                                        <br>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="comments">//  Created by Comercia on 2020.</span>
+                                        <br>
+                                            <span class="comments">//  Copyright © 2020 Addon Payments. All rights reserved.</span>
+                                        <br>
+                                            <span class="comments">//</span>
+                                        <br>
+                                            <span class="pink">import </span><span class="white">Foundation</span>
+                                        <br>
+                                            <span class="pink">import </span><span class="white">UIKit</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink">class </span><span class="controller">HppController</span><span class="white">: </span><span class="purple">UIViewController </span><span class="white">{</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Unimos la vista y el botón creado en el StoryBoard</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet weak var </span><span class="variables">hppView</span><span class="white">: </span><span class="purple">UIView</span><span class="white">!</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBOutlet weak var </span><span class="variables">buttonView</span><span class="white">: </span><span class="purple">UIView</span><span class="white">!</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Inicializamos la función que crea la sombra a la vista y el botón y redondea las esquinas</span>
+                                        <br>
+                                            <span class="pink pl-3">override func </span><span class="variables">viewDidLoad</span><span class="white">() {</span>
+                                        <br>
+                                            <span class="pink pl-5">super</span><span class="white">.</span><span class="function">viewDidLoad</span><span class="white">()</span>
+                                        <br>
+                                        <br>
+                                            <span class="service pl-5">shadow</span><span class="white">(parametro: </span><span class="service">hppView</span><span class="white">)</span>
+                                        <br>
+                                            <span class="service pl-5">shadow</span><span class="white">(parametro: </span><span class="service">buttonView</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-3">func </span><span class="variables">shadow</span><span class="white">(parametro: </span><span class="purple">UIView</span><span class="white">!) {</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowPath </span><span class="white">=</span>
+                                        <br>
+                                            <span class="purple pl-6">UIBezierPath</span><span class="white">(roundedRect: parametro.</span><span class="function">bounds</span><span class="white">,</span>
+                                        <br>
+                                            <span class="white pl-6">cornerRadius: parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius</span><span class="white">).</span><span class="function">cgPath</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">black</span><span class="white">.</span><span class="function">cgColor</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowOpacity </span><span class="white">= </span><span class="yellow">0.5</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowOffset </span><span class="white">= </span><span class="purple">CGSize</span><span class="white">(width: </span><span class="yellow">0</span><span class="white">, </span><span class="white">height: </span><span class="yellow">0</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowRadius </span><span class="white">= </span><span class="yellow">10</span>
+                                        <br>
+                                            <span class="white pl-5">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">masksToBounds </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="white pl-3">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-3">// Función que realiza el envío de los parámetros al servidor y abre un enlace en una ventana de Safari</span>
+                                        <br>
+                                            <span class="pink pl-3">@IBAction func </span><span class="variables">hppOP</span><span class="white">(</span><span class="pink">_ </span><span class="white">sender: </span><span class="purple">UIButton</span><span class="white">) {</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Indicamos la URL del servidor de Addon Payments</span>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: </span><span class="orange">"https://hpp.sandbox.addonpayments.com/pay"</span><span class="white">)!</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Indicamos los datos de la transacción en formato JSON</span>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">json: [</span><span class="purple">String</span><span class="white">: </span><span class="pink">Any</span><span class="white">] = [</span>
+                                        <br>
+                                            <span class="orange pl-7">"TIMESTAMP"</span><span class="white">:</span><span class="orange">"20200121101825"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"MERCHANT_ID"</span><span class="white">:</span><span class="orange">"addonphptest"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"ACCOUNT"</span><span class="white">:</span><span class="orange">"api"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"ORDER_ID"</span><span class="white">:</span><span class="orange">"123_Pruebas"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"AMOUNT"</span><span class="white">:</span><span class="orange">"1001"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"CURRENCY"</span><span class="white">:</span><span class="orange">"EUR"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"SHA1HASH"</span><span class="white">:</span><span class="orange">"35914c000a5bb27da4f3d8988febc679412164de"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"AUTO_SETTLE_FLAG"</span><span class="white">:</span><span class="orange">"1"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"COMMENT1"</span><span class="white">:</span><span class="orange">"Mobile Channel"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"COMMENT2"</span><span class="white">:</span><span class="orange">"COMMENT2"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"SHIPPING_CODE"</span><span class="white">:</span><span class="orange">"03201"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"SHIPPING_CO"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"BILLING_CODE"</span><span class="white">:</span><span class="orange">"03201"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"BILLING_CO"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"CUST_NUM"</span><span class="white">:</span><span class="orange">"123a45b6c"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"VAR_REF"</span><span class="white">:</span><span class="orange">"Invoice 7564a"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"PROD_ID"</span><span class="white">:</span><span class="orange">"SKU1000054"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"HPP_LANG"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"HPP_VERSION"</span><span class="white">:</span><span class="orange">"2"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"MERCHANT_RESPONSE_URL"</span><span class="white">:</span><span class="orange">"https://www.midominio.com/responseUrl"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"CARD_PAYMENT_BUTTON"</span><span class="white">:</span><span class="orange">"Pagar ahora"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-7">"SUPPLEMENTARY_DATA"</span><span class="white">:</span><span class="orange">"Datos adicionales"</span>
+                                        <br>
+                                            <span class="white pl-5">]</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">jsonData = </span><span class="pink">try</span><span class="white">? </span><span class="purple">JSONSerialization</span><span class="white">.</span><span class="function">data</span><span class="white">(withJSONObject: json)</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Creamos la petición mediante el método POST indicando en la cabecera que vamos a enviar un JSON</span>
+                                        <br>
+                                            <span class="pink pl-5">var </span><span class="white">request = </span><span class="purple">URLRequest</span><span class="white">(url: url)</span>
+                                        <br>
+                                            <span class="white pl-5">request.</span><span class="function">addValue</span><span class="white">(</span><span class="orange">"application/json"</span><span class="white">, forHTTPHeaderField: </span><span class="orange">"Content-Type"</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-5">request.</span><span class="function">httpMethod </span><span class="white">= </span><span class="orange">"POST"</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-5">// Asociamos los parámetros a la solicitud de envío</span>
+                                        <br>
+                                            <span class="white pl-5">request.</span><span class="function">httpBody </span><span class="white">= jsonData</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink pl-5">let </span><span class="white">task = </span><span class="purple">URLSession</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">dataTask</span><span class="white">(with: request) { data, response, error </span><span class="pink">in</span>
+                                        <br>
+                                            <span class="comments pl-7">// En caso de no poder conectar con la URL iOS nos mostrará el error en consola</span>
+                                        <br>
+                                            <span class="pink pl-7">guard let </span><span class="white">data = data, error </span><span class="function">== </span><span class="pink">nil else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="function pl-8">print</span><span class="white">(error?.</span><span class="function">localizedDescription </span><span class="white">?? </span><span class="orange">"No hay datos"</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pink pl-8">return</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-7">// Mostramos la respuesta de forma asíncrona</span>
+                                        <br>
+                                            <span class="pink pl-7">let </span><span class="white">responseJSON = </span><span class="pink">try</span><span class="white">? </span><span class="purple">JSONSerialization</span><span class="white">.</span><span class="function">jsonObject</span><span class="white">(with: data, options: [])</span>
+                                        <br>
+                                            <span class="purple pl-7">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-8">if let </span><span class="white">responseJSON = responseJSON </span><span class="pink">as</span><span class="white">? [</span><span class="purple">String</span><span class="white">: </span><span class="pink">Any</span><span class="white">] {</span>
+                                        <br>
+                                            <span class="comments pl-9">// En caso de que la operación se haya repetido o se hayan enviado parámetros incorrectos</span>
+                                        <br>
+                                            <span class="comments pl-9">// se recibirá un error desde el servidor.</span>
+                                        <br>
+                                            <span class="comments pl-9">//</span>
+                                        <br>
+                                            <span class="comments pl-9">// Si la operación es válida obtendremos un enlace como respuesta del servidor</span>
+                                        <br>
+                                            <span class="comments pl-9">// y este lo abriremos en una ventana nueva de Safari</span>
+                                        <br>
+                                            <span class="pink pl-9">if let </span><span class="white">responseJSON = responseJSON[</span><span class="orange">"errors"</span><span class="white">] {</span>
+                                        <br>
+                                            <span class="function pl-10">print</span><span class="white">(responseJSON </span><span class="pink">as Any</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-9">} </span><span class="pink">else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-10">if let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: responseJSON[</span><span class="orange">"hppPayByLink"</span><span class="white">]! </span><span class="pink">as</span><span class="white">! </span><span class="purple">String</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="purple pl-11">UIApplication</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">open</span><span class="white">(url)</span>
+                                        <br>
+                                            <span class="white pl-10">}</span>
+                                        <br>
+                                            <span class="white pl-9">}</span>
+                                        <br>
+                                            <span class="white pl-8">}</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                            <span class="white pl-5">task.</span><span class="function">resume</span><span class="white">()</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                        <br>
+                                    </code>
+                                </div>
+                            </div>            
+                        </div>
+                        <!-- /Punto 1-->
+
+                        <!-- Punto 2-->
+                        <div class="contenedor">
+                            <div class="pl-3 pt-3 pr-3 mb-3 pb-2 text-justify">
+                                <h3 class="pt-1" id="descripciones">
+                                    2. Descripciones
+                                </h3>
+                                <hr>
+                                
+                                <h5 id="union">2.1 Unión de campos</h5>
+                                    <p>
+                                       Debemos unir los campos del formulario que hemos creado en el archivo "Main.storyboard" en nuestro "HppController.swift" y declarar variables vacías de tipo String para cada campo.
+                                    </p>
+
+                                    <div class="p-3 panelCode">
+                                        <code>
+                                                <span class="comments">// Unimos la vista y el botón creado en el StoryBoard</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet weak var </span><span class="variables">hppView</span><span class="white">: </span><span class="purple">UIView</span><span class="white">!</span>
+                                            <br>
+                                                <span class="pink">@IBOutlet weak var </span><span class="variables">buttonView</span><span class="white">: </span><span class="purple">UIView</span><span class="white">!</span>
+                                        </code>
+                                    </div>
+
+                                <hr>
+
+                                <h5 id="override" class="mt-3">2.2 Override</h5>
+                                    <p>
+                                        Inicializamos la función que crea la sombra y redondea las esquinas a la vista y el botón:
+                                    </p>
+
+                                   <div class="p-3 panelCode">
+                                       <code>
+                                                <span class="pink">override func </span><span class="variables">viewDidLoad</span><span class="white">() {</span>
+                                            <br>
+                                                <span class="pink pl-4">super</span><span class="white">.</span><span class="function">viewDidLoad</span><span class="white">()</span>
+                                            <br>
+                                            <br>
+                                                <span class="service pl-4">shadow</span><span class="white">(parametro: </span><span class="service">hppView</span><span class="white">)</span>
+                                            <br>
+                                                <span class="service pl-4">shadow</span><span class="white">(parametro: </span><span class="service">buttonView</span><span class="white">)</span>
+                                            <br>
+                                                <span class="white">}</span>
+                                        </code>
+                                    </div>
+
+                                <hr>
+
+                                <h5 id="estilos" class="mt-3">
+                                    2.3 Estilos
+                                </h5>
+
+                                 <p>
+                                   Creamos la función "shadow()" que aplica estilos de sombra y bordes redondeados a la vista que hemos unido y al botón de pago:
+                                </p>
+                                <div class="p-3 panelCode">
+                                    <code>
+                                            <span class="pink">func </span><span class="variables">shadow</span><span class="white">(parametro: </span><span class="purple">UIView</span><span class="white">!) {</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius </span><span class="white">= </span><span class="yellow">5</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">clipsToBounds </span><span class="white">= </span><span class="pink">true</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowPath </span><span class="white">=</span>
+                                        <br>
+                                            <span class="purple pl-5">UIBezierPath</span><span class="white">(roundedRect: parametro.</span><span class="function">bounds</span><span class="white">,</span>
+                                        <br>
+                                            <span class="white pl-5">cornerRadius: parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">cornerRadius</span><span class="white">).</span><span class="function">cgPath</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowColor </span><span class="white">= </span><span class="purple">UIColor</span><span class="white">.</span><span class="function">black</span><span class="white">.</span><span class="function">cgColor</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowOpacity </span><span class="white">= </span><span class="yellow">0.5</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowOffset </span><span class="white">= </span><span class="purple">CGSize</span><span class="white">(width: </span><span class="yellow">0</span><span class="white">, </span><span class="white">height: </span><span class="yellow">0</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">shadowRadius </span><span class="white">= </span><span class="yellow">10</span>
+                                        <br>
+                                            <span class="white pl-4">parametro.</span><span class="function">layer</span><span class="white">.</span><span class="function">masksToBounds </span><span class="white">= </span><span class="pink">false</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                    </code>
+                                </div>
+
+                                <hr>
+
+                                <h5 id="envioHPP" class="mt-3">
+                                    2.4 Envío HPP
+                                </h5>
+
+                                 <p>
+                                   Para enviar la operación a los servidores de Addon Payments y abrir nuestro navegador, debemos realizar una función que contenga toda la información de los datos que vamos a enviar una vez pulsemos el botón "hppOP":
+                                </p>
+
+                                <div class="p-3 mb-4 panelCode">
+                                    <code>
+                                            <span class="pink">@IBAction func </span><span class="variables">hppOP</span><span class="white">(</span><span class="pink">_ </span><span class="white">sender: </span><span class="purple">UIButton</span><span class="white">) {</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-4">// Indicamos la URL del servidor de Addon Payments</span>
+                                        <br>
+                                            <span class="pink pl-4">let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: </span><span class="orange">"https://hpp.sandbox.addonpayments.com/pay"</span><span class="white">)!</span>
+                                        <br>
+                                        <br>
+                                            <span class="comments pl-4">// [... Datos JSON ...]</span>
+                                    </code>
+                                </div>
+
+                                <p>
+                                   Formamos el JSON que se va a enviar al servidor de Addon Payments indicando los parámetros de la operación:
+                                   <small class="form-text text-muted alert alert-primary">
+                                       --> La URL de respuesta debe ser la de su servidor. Una vez finalizada la transacción, el cliente verá el mensaje que usted haya programado en esa URL de respuesta.
+                                       <br>
+                                       --> Si quiere obtener más información sobre la URL de respuesta, puede ver nuestra <a target="_blank" href="https://desarrolladores.addonpayments.com/#!/hpp/transaction-processing">documentación oficial</a>.
+                                   </small>
+                                </p>
+
+                                <p>
+                                    Los parámetros obligatorios que debemos enviar en cada petición son los siguientes:
+                                </p>
+
+                                <ul style="list-style: circle;">
+                                    <li>TIMESTAMP</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                Fecha y hora de la transacción. Se introduce con el siguiente formato: AAAAMMDDHHMMSS. Debe ser un valor en un intervalo de 24 horas respecto a la hora actual.
+                                            </li>
+                                        </ul>
+                                    <li>MERCHANT_ID</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                Proporcionado por Addon Payments, también denominado «ID de cliente».
+                                            </li>
+                                        </ul>
+                                    <li>ORDER_ID</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                ID alfanumérico único que se utiliza para identificar la transacción. No se permiten espacios.
+                                            </li>
+                                        </ul>
+                                    <li>AMOUNT</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                Importe total que se debe autorizar en la unidad más pequeña de la divisa (es decir, para procesar 100 euros, debe introducir 10 000). Si no tiene decimales (es decir, el yen japonés), póngase en contacto con Addon Payments. No se permiten puntos como separador decimal.
+                                            </li>
+                                        </ul>
+                                    <li>CURRENCY</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                Código de divisa de tres letras (por ejemplo, EUR o GBP). <a target="_blank" href="https://desarrolladores.addonpayments.com/#!/technical-resources/currency-codes">Consulte la lista de códigos de divisa.</a>
+                                            </li>
+                                        </ul>
+                                    <li>SHA1HASH</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                Firma digital generada mediante el algoritmo SHA-1.
+                                            </li>
+                                        </ul>
+                                    <li>AUTO_SETTLE_FLAG</li>
+                                        <ul class="mb-3">
+                                            <li>
+                                                El indicador de liquidación automática permite a los comercios especificar si desean añadir una transacción al siguiente archivo de liquidaciones («1») o únicamente autorizar la transacción y esperar hasta el momento en el que la transacción se haya liquidado para retirar realmente los fondos del cliente («0»).
+                                                Los esquemas de las tarjetas (Visa, MasterCard, etc.) tienen sus propias reglas sobre el tiempo de espera de la liquidación de las transacciones.
+                                            </li>
+                                        </ul>
+                                </ul>
+
+                                <small class="form-text text-muted alert alert-primary">
+                                    --> Si quiere obtener más información sobre los parámetros que se pueden enviar al procesador de pagos en su petición <a target="_blank" href="https://desarrolladores.addonpayments.com/#!/hpp/transaction-processing">puede ver la documentación oficial de Addon Payments</a>.
+                                </small>
+
+                               <div class="p-3 mb-4 panelCode">
+                                   <code>
+                                            <span class="comments">// Indicamos los datos de la transacción en formato JSON</span>
+                                        <br>
+                                            <span class="pink">let </span><span class="white">json: [</span><span class="purple">String</span><span class="white">: </span><span class="pink">Any</span><span class="white">] = [</span>
+                                        <br>
+                                            <span class="orange pl-5">"TIMESTAMP"</span><span class="white">:</span><span class="orange">"20200121101825"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"MERCHANT_ID"</span><span class="white">:</span><span class="orange">"addonphptest"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"ACCOUNT"</span><span class="white">:</span><span class="orange">"api"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"ORDER_ID"</span><span class="white">:</span><span class="orange">"123_Pruebas"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"AMOUNT"</span><span class="white">:</span><span class="orange">"1001"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"CURRENCY"</span><span class="white">:</span><span class="orange">"EUR"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"SHA1HASH"</span><span class="white">:</span><span class="orange">"35914c000a5bb27da4f3d8988febc679412164de"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"AUTO_SETTLE_FLAG"</span><span class="white">:</span><span class="orange">"1"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"COMMENT1"</span><span class="white">:</span><span class="orange">"Mobile Channel"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"COMMENT2"</span><span class="white">:</span><span class="orange">"COMMENT2"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"SHIPPING_CODE"</span><span class="white">:</span><span class="orange">"03201"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"SHIPPING_CO"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"BILLING_CODE"</span><span class="white">:</span><span class="orange">"03201"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"BILLING_CO"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"CUST_NUM"</span><span class="white">:</span><span class="orange">"123a45b6c"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"VAR_REF"</span><span class="white">:</span><span class="orange">"Invoice 7564a"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"PROD_ID"</span><span class="white">:</span><span class="orange">"SKU1000054"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"HPP_LANG"</span><span class="white">:</span><span class="orange">"ES"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"HPP_VERSION"</span><span class="white">:</span><span class="orange">"2"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"MERCHANT_RESPONSE_URL"</span><span class="white">:</span><span class="orange">"https://www.midominio.com/responseUrl"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"CARD_PAYMENT_BUTTON"</span><span class="white">:</span><span class="orange">"Pagar ahora"</span><span class="white">,</span>
+                                        <br>
+                                            <span class="orange pl-5">"SUPPLEMENTARY_DATA"</span><span class="white">:</span><span class="orange">"Datos adicionales"</span>
+                                        <br>
+                                            <span class="white">]</span>
+                                        <br>
+                                        <br>
+                                            <span class="pink">let </span><span class="white">jsonData = </span><span class="pink">try</span><span class="white">? </span><span class="purple">JSONSerialization</span><span class="white">.</span><span class="function">data</span><span class="white">(withJSONObject: json)</span>
+                                    </code>
+                                </div>
+
+                                <p>
+                                    Creamos la solicitud que vamos a enviar mediante el método POST al servidor de Addon Payments. Debemos añadir la cabecera ("application/json", forHTTPHeaderField: "Content-Type") para indicarle al servidor que los datos que enviamos son en formato JSON:
+                                </p>
+
+                                <div class="p-3 mb-4 panelCode">
+                                    <code>
+                                            <span class="pink">var </span><span class="white">request = </span><span class="purple">URLRequest</span><span class="white">(url: url)</span>
+                                        <br>
+                                            <span class="white">request.</span><span class="function">addValue</span><span class="white">(</span><span class="orange">"application/json"</span><span class="white">, forHTTPHeaderField: </span><span class="orange">"Content-Type"</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white">request.</span><span class="function">httpMethod </span><span class="white">= </span><span class="orange">"POST"</span>
+                                        <br>
+                                            <span class="white">request.</span><span class="function">httpBody </span><span class="white">= jsonData</span>
+                                     </code>
+                                 </div>
+
+                                 <p>
+                                    Creamos la variable "task" y le asociamos la solicitud que posteriormente ejecutaremos. En caso de que la petición no se pueda enviar, nos mostrará un "print()" el error que nos devuelve iOS.
+                                 </p>
+
+                                 <p>
+                                    Si enviamos una información errónea el servidor de Addon Payments nos indicará cual es el error que hemos tenido a la hora de formalizar los parámetros en nuestro JSON. Si la petición a Addon Payments es correcta nos devolverá la URL que permite al cliente realizar el pago, esta URL la abrimos en una ventana de Safari.
+                                 </p>
+
+                                 <p>
+                                    Independientemente de que la transacción de un error o se realice correctamente debemos indicar en nuestro código que esperamos recibir la respuesta de forma asíncrona llamando al objeto "DispatchQueue.main.async{}":
+                                 </p>
+
+                                <div class="p-3 mb-2 panelCode">
+                                    <code>
+                                            <span class="pink">let </span><span class="white">task = </span><span class="purple">URLSession</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">dataTask</span><span class="white">(with: request) { data, response, error </span><span class="pink">in</span>
+                                        <br>
+                                            <span class="pink pl-4">guard let </span><span class="white">data = data, error </span><span class="function">== </span><span class="pink">nil else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="function pl-5">print</span><span class="white">(error?.</span><span class="function">localizedDescription </span><span class="white">?? </span><span class="orange">"No hay datos"</span><span class="white">)</span>
+                                        <br>
+                                            <span class="pink pl-5">return</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                        <br>
+                                           <span class="pink pl-4">let </span><span class="white">responseJSON = </span><span class="pink">try</span><span class="white">? </span><span class="purple">JSONSerialization</span><span class="white">.</span><span class="function">jsonObject</span><span class="white">(with: data, options: [])</span>
+                                        <br>
+                                            <span class="purple pl-4">DispatchQueue</span><span class="white">.</span><span class="function">main</span><span class="white">.</span><span class="function">async </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-5">if let </span><span class="white">responseJSON = responseJSON </span><span class="pink">as</span><span class="white">? [</span><span class="purple">String</span><span class="white">: </span><span class="pink">Any</span><span class="white">] {</span>
+                                        <br>
+                                            <span class="pink pl-6">if let </span><span class="white">responseJSON = responseJSON[</span><span class="orange">"errors"</span><span class="white">] {</span>
+                                        <br>
+                                            <span class="function pl-7">print</span><span class="white">(responseJSON </span><span class="pink">as Any</span><span class="white">)</span>
+                                        <br>
+                                            <span class="white pl-6">} </span><span class="pink">else </span><span class="white">{</span>
+                                        <br>
+                                            <span class="pink pl-7">if let </span><span class="white">url = </span><span class="purple">URL</span><span class="white">(string: responseJSON[</span><span class="orange">"hppPayByLink"</span><span class="white">]! </span><span class="pink">as</span><span class="white">! </span><span class="purple">String</span><span class="white">) {</span>
+                                        <br>
+                                            <span class="purple pl-8">UIApplication</span><span class="white">.</span><span class="function">shared</span><span class="white">.</span><span class="function">open</span><span class="white">(url)</span>
+                                        <br>
+                                            <span class="white pl-7">}</span>
+                                        <br>
+                                            <span class="white pl-6">}</span>
+                                        <br>
+                                            <span class="white pl-5">}</span>
+                                        <br>
+                                            <span class="white pl-4">}</span>
+                                        <br>
+                                            <span class="white">}</span>
+                                        <br>
+                                            <span class="white">task.</span><span class="function">resume</span><span class="white">()</span>
+                                    </code>
+                                </div>
+                            </div>            
+                        </div>
+                        <!-- /Punto 2 -->
+                    </div>
+                    <!-- /Contenido común -->
+
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../assets/js/barraprogreso.js"></script>
+    </body>
+</html>
